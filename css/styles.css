@@ -3,7 +3,7 @@
 
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
+	font-size: 12pt;
 	color: #333;
 	line-height: 1.5;
 }
@@ -17,7 +17,7 @@ body {
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
+	font-size: 12pt;
 	color: #333;
 }
 a {
@@ -194,7 +194,7 @@ nav h1 a {
 }
 
 #restaurants-list li a {
-  background-color: orange;
+  background-color: rgb(80, 24, 23);
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
@@ -205,6 +205,7 @@ nav h1 a {
   text-decoration: none;
   text-transform: uppercase;
   max-width: 50%;
+  font-weight: bold;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -237,7 +238,7 @@ nav h1 a {
 }
 
 #restaurant-address {  
-  font-size: 12pt; 
+  font-size: 14pt; 
   font-weight: bolder;
   text-align: center;
 }
@@ -294,7 +295,8 @@ nav h1 a {
   max-width: 100%;
   color:rgb(110, 40, 40);
 }
-#reviews-list li p {
+#reviews-list li p {   
+  font-size: 1em; 
   margin: 0 0 10px;
 }
 

@@ -55,8 +55,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 /* ====================== Navigation ====================== */
 nav {
-  max-width: 100%;
-  /* height: 80px; */
+  max-width: 100%;  
   background-color: #45455a;
   text-align:center;
 }
@@ -209,14 +208,6 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Details ====================== */
-/* .inside header {
-  position: fixed;
-  top: 0;
-  width: 100%; 
-  z-index: 1000;
-} */
-
-
 
 .inside #maincontent {
   max-width: 1200px;
@@ -224,25 +215,17 @@ nav h1 a {
   margin-right: auto;
 }
 
-/* .inside #map-container {
-  max-width: 100%;
-} */
- 
 .inside #map {
   background-color: #ccc; 
   max-width: 100%;
 }
-/* .inside #footer {
-  bottom: 0;
-  position: absolute;
-  max-width: 100%;
-} */
+
 #restaurant-name {
-  color: #f18200;
+  color: rgb(110, 40, 40);
   font-family: Arial,sans-serif;
   font-size: 1.5em;
   font-weight: 200;
-  letter-spacing: 0;
+  letter-spacing: 2px;
   margin: 15px 0 30px;
   text-transform: uppercase;
   line-height: 1.1;
@@ -253,16 +236,16 @@ nav h1 a {
 	width: 100%;
 }
 
-
 #restaurant-address {  
   font-size: 12pt; 
   font-weight: bolder;
+  text-align: center;
 }
 
-#restaurant-address, #restaurant-hours {
+#restaurant-address, #restaurant-hours, #restaurant-hours-info h4 {
   padding-left: 25px;
 }
-
+ 
 #restaurant-hours {
   padding-bottom: 25px;
 }
@@ -293,6 +276,7 @@ nav h1 a {
   letter-spacing: -1px;
   padding-bottom: 1pt;
   text-transform: uppercase;
+  text-align: center;
 }
 #reviews-list {
   margin: 0;
@@ -304,11 +288,11 @@ nav h1 a {
   display: block;
   list-style-type: none;
   margin: 0 0 10px;
-  /* overflow: hidden; */
+  overflow: hidden;
   padding: 20px;
   position: relative;
   max-width: 100%;
-  color: rgb(104, 28, 28);
+  color:rgb(110, 40, 40);
 }
 #reviews-list li p {
   margin: 0 0 10px;
@@ -319,7 +303,7 @@ nav h1 a {
   font-weight: bold;
 }
 
-#reviews-list li p:nth-child(4), #restaurant-hours td  {
+#reviews-list li p, #restaurant-hours td, #restaurant-hours-info h4  {
   color: rgb(110, 40, 40);
 }
 

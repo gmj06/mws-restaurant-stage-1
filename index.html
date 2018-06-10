@@ -2,13 +2,15 @@
 <html lang="en">
 
 <head>
-  <meta name="viewport" content="width=device-width; initial-scale=1" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />  
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
+  <script type="application/javascript" src="js/register_service_worker.js"></script>
   <title>Restaurant Reviews</title>
 </head>
 
 <body>
+ 
   <header>
     <nav>
       <h1>
@@ -17,12 +19,13 @@
     </nav>
   </header>
 
+  <a href="#restaurantFilters" class="skip-link">Skip to Main Content</a>
   <main id="maincontent">
     <section id="map-container">
       <div id="map"></div>
     </section>
     <section>
-      <div class="filter-options">
+      <div class="filter-options" id="restaurantFilters" tabindex="-1">
         <h2>Filter Results</h2>
         <div class="filter-options-inner">
           <label class="filter-options-label" >All Neighborhoods</label>
@@ -41,7 +44,8 @@
 
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5OTT6Df2K3mTYHUGWUfWY_MlfVsb5bsU&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw-FOFeEZx7m0fFD7Dg75S6pX51ieKleg&libraries=places&callback=initMap"></script>
+  
 
 
   <footer id="footer">

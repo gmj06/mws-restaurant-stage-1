@@ -7,10 +7,11 @@
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <script type="application/javascript" src="js/register_service_worker.js"></script>
   <title>Restaurant Info</title>
 </head>
 
-<body class="inside">
+<body class="inside">  
   <!-- Beginning header -->
   <header>
     <!-- Beginning nav -->
@@ -30,6 +31,7 @@
   </header>
   <!-- End header -->
 
+  <a href="#footer" class="skip-link">Skip Map</a>
   <!-- Beginning main -->
   <main id="maincontent">
     <!-- Beginning restaurant -->
@@ -40,11 +42,11 @@
     </section>
     <!-- end restaurant -->
     <!-- Beginning map -->
-    <section id="map-container">
+    <section id="map-container" tabindex="-1">
       <div id="map"></div>
       <div id="restaurant-hours-info">
         <p id="restaurant-address"></p>
-        <h4>Hours of Operation</h4>
+        <h3>Hours of Operation</h3>
         <table id="restaurant-hours">        
         </table>
       </div>
@@ -59,7 +61,7 @@
   <!-- End main -->
 
   <!-- Beginning footer -->
-  <footer id="footer">
+  <footer id="footer" tabindex="-1">
     Copyright (c) 2017
     <a href="/">
       <strong>Restaurant Reviews</strong>

@@ -176,7 +176,7 @@ nav h1 a {
   max-width: 100%; 
   min-width: 100%;
 }
-#restaurants-list li h1 {
+#restaurants-list li h2 {
   color: rgb(71, 11, 23);
   font-family: Arial,sans-serif;
   font-size: 14pt;
@@ -307,6 +307,20 @@ nav h1 a {
 
 #reviews-list li p, #restaurant-hours td, #restaurant-hours-info h4  {
   color: rgb(110, 40, 40);
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #BF1722;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus{
+  top:0;
 }
 
 /* =============================== Responsive Styles ===============================*/

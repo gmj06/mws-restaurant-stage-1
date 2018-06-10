@@ -126,10 +126,17 @@ resetRestaurants = (restaurants) => {
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
+  if(restaurants.length === 0){
+    const span = document.createElement('span');
+    span.classList = ["text-danger", "font-weight-bold"];
+    span.textContent = "NO RESTAURANT(s) FOUND";
+    ul.append(span);
+  }else{
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
+}
 }
 
 /**
@@ -150,7 +157,7 @@ createRestaurantHTML = (restaurant) => {
   li.append(image);
   
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
 

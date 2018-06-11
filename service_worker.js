@@ -45,22 +45,7 @@
     });
 
     self.addEventListener("fetch", event => {
-        const cacheRequest = event.request;
-        // const urlObj = new URL(event.request.url);
-
-        // if(urlObj.hostname !== "localhost"){
-        //     event.request.mode = "no-cors";
-        // }
-
-        // if (event.request.url.indexOf('https://maps.googleapis.com') > -1) {
-        //     event.respondWith(map(event.request));
-        //     return;
-        // }
-
-        // if(event.request.url.indexOf('restaurant.html') > -1){
-        //     const cacheUrlObj = "restaurant.html";
-        //     cacheRequest = new Request(cacheUrlObj);
-        // }
+        const cacheRequest = event.request;        
         event.respondWith(
             caches.match(cacheRequest).then(resp => {
                 return resp || fetch(event.request).then(response => {
@@ -69,18 +54,11 @@
                     caches.open(staticCacheName).then(cache => {
                         cache.put(event.request, responseClone)
                     })
-
                     return response;
                 })
             }).catch(err => {
                 console.log("err in fetch for " + event.request.url, err);
             })
         )
-    });
-
-    // function map(request) {
-    //     return fetch('map.png').then(function(response) {
-    //            return response;
-    //     });
-    // }
+    });    
 })();

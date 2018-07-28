@@ -1,3 +1,5 @@
+const port = 1337 // Change this to your server port
+
 /**
  * Common database helper functions.
  */
@@ -7,33 +9,14 @@ class DBHelper {
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
-  static get DATABASE_URL() {
-    const port = 1337 // Change this to your server port
+  static get DATABASE_URL() {   
     return `http://localhost:${port}/restaurants`;
   }
 
   /**
    * Fetch all restaurants.
    */
-  // static fetchRestaurants(callback, id) {
-  //   let fetchURL;
-  //    if(!id){
-  //     fetchURL = DBHelper.DATABASE_URL;
-  //    }else{
-  //     fetchURL = DBHelper.DATABASE_URL + "/" + id;
-  //    } 
-
-  //    fetch(fetchURL, { method: 'GET'})
-  //    .then(response => {
-  //       response.json().then(restaurants => {
-  //         console.log("restaurants using fetch api", restaurants);
-  //         callback(null, restaurants);
-  //       });
-  //    })
-  //    .catch(error => {       
-  //       callback(`Request failed. Returned status of ${error}`, null);
-  //    });
-
+ 
   static fetchRestaurants(callback) {
     fetch(DBHelper.DATABASE_URL, { method: 'GET'})
      .then(response => {
@@ -66,31 +49,31 @@ class DBHelper {
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
-    let fetchURL = DBHelper.DATABASE_URL + "/" + id;
-    fetch(fetchURL, { method: 'GET'})
-    .then(response => {
-       response.json().then(restaurant => {
-         console.log("fetching restaurant by id using fetch api", restaurant);
-         callback(null, restaurant);
-       });
-    })
-    .catch(error => {       
-       callback(`Request failed. Returned status of ${error}`, null);
-    });
-
-    // fetch all restaurants with proper error handling.
-    // DBHelper.fetchRestaurants((error, restaurants) => {
-    //   if (error) {
-    //     callback(error, null);
-    //   } else {
-    //     const restaurant = restaurants.find(r => r.id == id);
-    //     if (restaurant) { // Got the restaurant
-    //       callback(null, restaurant);
-    //     } else { // Restaurant does not exist in the database
-    //       callback('Restaurant does not exist', null);
-    //     }
-    //   }
+    // let fetchURL = DBHelper.DATABASE_URL + "/" + id;
+    // fetch(fetchURL, { method: 'GET'})
+    // .then(response => {
+    //    response.json().then(restaurant => {
+    //      console.log("fetching restaurant by id using fetch api", restaurant);
+    //      callback(null, restaurant);
+    //    });
+    // })
+    // .catch(error => {       
+    //    callback(`Request failed. Returned status of ${error}`, null);
     // });
+
+   // fetch all restaurants with proper error handling.
+    DBHelper.fetchRestaurants((error, restaurants) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        const restaurant = restaurants.find(r => r.id == id);
+        if (restaurant) { // Got the restaurant
+          callback(null, restaurant);
+        } else { // Restaurant does not exist in the database
+          callback('Restaurant does not exist', null);
+        }
+      }
+    });
   }
 
   /**

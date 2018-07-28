@@ -1,5 +1,16 @@
-(function () {
-    'use strict';
+//(function () {
+  //  'use strict';
+    import idb from 'idb';
+
+    const dbPromise = idb.open('restaurant-proj', 1, upgradeDb => {
+        switch(upgradeDb.oldVersion){
+            case 0: 
+                upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+            case 1:
+            var restaurantStore = upgradeDb.transaction.objectStore("restaurants");
+            restaurantStore.createIndex("restaurant-id", "id");
+        }      
+    });
 
     let staticCacheName = "restaurant-v2";
 
@@ -8,8 +19,6 @@
         "/index.html",
         "/restaurant.html",
         "/css/styles.css",
-        // "/data/restaurants.json",
-        // "/js/",
         "/js/dbhelper.js",
         "/js/main.js",
         "/js/restaurant_info.js",
@@ -45,20 +54,22 @@
     });
 
     self.addEventListener("fetch", event => {
-        const cacheRequest = event.request;        
-        event.respondWith(
-            caches.match(cacheRequest).then(resp => {
-                return resp || fetch(event.request).then(response => {
-                    let responseClone = response.clone();
+        const cacheRequest = event.request;  
+        const requestUrl = new URL(event.request.URL);
+        console.log("requestURL -", requestUrl);
+        console.log("pathname - ", requestUrl.pathname);
+        
+        
 
-                    caches.open(staticCacheName).then(cache => {
-                        cache.put(event.request, responseClone)
-                    })
-                    return response;
-                })
-            }).catch(err => {
+        event.respondWith(
+            caches.open(staticCacheName).then(cache => {
+                return cache.match(event.request).then( response => {      
+                  return response || fetch(event.request);      
+                });      
+            })        
+            .catch(err => {
                 console.log("err in fetch for " + event.request.url, err);
             })
         )
     });    
-})();
+//})();

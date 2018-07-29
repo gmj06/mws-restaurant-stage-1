@@ -1,5 +1,7 @@
 const port = 1337 // Change this to your server port
-
+const OBJECTSTORE = 'restaurants';
+let restaurantNeighborhoods;
+let restaurantCuisines;
 /**
  * Common database helper functions.
  */
@@ -9,26 +11,107 @@ class DBHelper {
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
-  static get DATABASE_URL() {   
+  static get DATABASE_URL() {
     return `http://localhost:${port}/restaurants`;
   }
+
+  static openIDB() {
+    if (!navigator.serviceWorker) return Promise.resolve();
+
+    // make sure IndexdDB is supported
+    if (!self.indexedDB) reject("Uh oh, IndexedDB is NOT supported in this browser!");
+
+    //if (typeof idb === "undefined") self.importScripts('js/idb.js');
+
+    return idb.open('restaurants', 1, function (upgradeDb) {
+      switch (upgradeDb.oldVersion) {
+        case 0:
+          upgradeDb.createObjectStore(OBJECTSTORE, { keyPath: 'id' });
+        case 1: {
+          var store = upgradeDb.transaction.objectStore(OBJECTSTORE, { keyPath: 'id' });
+          store.createIndex('by-id', 'id');
+        }
+      }
+    });
+  }
+
+  static insertIntoIDB(data) {
+    return DBHelper.openIDB().then(function (db) {
+      if (!db) return;
+
+      var tx = db.transaction(OBJECTSTORE, 'readwrite');
+      var store = tx.objectStore(OBJECTSTORE);
+      data.forEach(restaurant => {
+        store.put(restaurant);
+      });
+      return tx.complete;
+    });
+  };
+
+
+  static fetchFromAPIInsertIntoIDB() {
+    return fetch(DBHelper.DATABASE_URL)
+      .then(response => {
+        return response.json()
+      }).then(DBHelper.insertIntoIDB);
+  };
+
+  // static fetchFromAPIInsertIntoIDB() {
+  //   return fetch(DBHelper.DATABASE_URL, { method: 'GET' })
+  //     .then(response => {
+  //       return JSON.parse(response).then(restaurants => {
+  //         insertIntoIDB(restaurants);
+  //         console.log("fetchFromAPIInsertIntoIDB", restaurants);
+  //         return restaurants;
+  //       });
+  //     })
+  // };
+
+  static fetchFromIDB() {
+    return DBHelper.openIDB().then(db => {
+      if (!db) return;
+      var store = db.transaction(OBJECTSTORE).objectStore(OBJECTSTORE);
+      console.log("fetchFromIDB", store.getAll());
+      return store.getAll();
+    });
+  };
+
 
   /**
    * Fetch all restaurants.
    */
- 
+
   static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL, { method: 'GET'})
-     .then(response => {
-        response.json().then(restaurants => {
-          console.log("restaurants using fetch api", restaurants);
-          callback(null, restaurants);
-        });
-     })
-     .catch(error => {       
-        callback(`Request failed. Returned status of ${error}`, null);
-     });
-    
+    return DBHelper.fetchFromIDB().then(restaurants => {
+      if (restaurants.length > 0) {
+        return Promise.resolve(restaurants);
+      } else {
+        return DBHelper.fetchFromAPIInsertIntoIDB();
+      }
+    }).then(restaurants => {      
+      const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood);
+      restaurantNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i);
+
+      const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type);
+      restaurantCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i);
+      callback(null, restaurants);
+    }).catch(error => {
+      callback(error, null);
+    });
+
+
+
+    // fetch(DBHelper.DATABASE_URL, { method: 'GET' })
+    //   .then(response => {
+    //     response.json().then(restaurants => {
+    //       console.log("restaurants using fetch api", restaurants);
+    //       callback(null, restaurants);
+    //     });
+    //   })
+    //   .catch(error => {
+    //     callback(`Request failed. Returned status of ${error}`, null);
+    //   });
+
 
     // let xhr = new XMLHttpRequest();
     // xhr.open('GET', DBHelper.DATABASE_URL);
@@ -61,7 +144,7 @@ class DBHelper {
     //    callback(`Request failed. Returned status of ${error}`, null);
     // });
 
-   // fetch all restaurants with proper error handling.
+    // fetch all restaurants with proper error handling.
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
@@ -80,6 +163,10 @@ class DBHelper {
    * Fetch restaurants by a cuisine type with proper error handling.
    */
   static fetchRestaurantByCuisine(cuisine, callback) {
+    if(restaurantCuisines){
+      callback(null, restaurantCuisines);
+      return;
+    }
     // Fetch all restaurants  with proper error handling
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
@@ -96,6 +183,10 @@ class DBHelper {
    * Fetch restaurants by a neighborhood with proper error handling.
    */
   static fetchRestaurantByNeighborhood(neighborhood, callback) {
+    if(restaurantNeighborhoods){
+      callback(null, restaurantNeighborhoods);
+      return;
+    }
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
@@ -188,7 +279,8 @@ class DBHelper {
       title: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant),
       map: map,
-      animation: google.maps.Animation.DROP}
+      animation: google.maps.Animation.DROP
+    }
     );
     return marker;
   }

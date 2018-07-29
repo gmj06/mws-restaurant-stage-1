@@ -12,7 +12,6 @@
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^7.0.1",
     "gulp-concat": "^2.6.1",
-    "gulp-eslint": "^4.0.2",
     "gulp-imagemin": "^4.1.0",
     "gulp-jasmine-phantom": "^3.0.0",
     "gulp-sass": "^4.0.1",

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />  
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link rel="stylesheet" href="css/styles.css">  
+  <title>Restaurant Reviews</title>
+</head>
+
+<body>
+ 
+  <header>
+    <nav>
+      <h1>
+        <a href="/">Restaurant Reviews</a>
+      </h1>
+    </nav>
+  </header>
+
+  <a href="#restaurantFilters" class="skip-link">Skip to Main Content</a>
+  <main id="maincontent">
+    <section id="map-container" tabindex="-1" role="application">
+      <div id="map"></div>
+    </section>
+    <section>
+      <div class="filter-options" id="restaurantFilters" tabindex="-1">
+        <h2>Filter Results</h2>
+        <div class="filter-options-inner">
+          <label class="filter-options-label" >All Neighborhoods</label>
+          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+            <option value="all">All Neighborhoods</option>
+          </select>
+          <label class="filter-options-label">All Cuisines</label>
+          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+            <option value="all">All Cuisines</option>
+          </select>
+        </div>
+      </div>
+      <ul id="restaurants-list"></ul>
+    </section>
+  </main>
+  <!-- <script type="text/javascript"  charset="utf-8"src="js/idb.js"></script>
+  <script type="text/javascript" src="js/register_service_worker.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/main.js"></script> -->
+  <script src="js/all.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQIcEDJHQfAjAU9DA7PaMHTh8T3BnETkk&libraries=places&callback=initMap"></script>
+  
+
+
+  <footer id="footer">
+    Copyright (c) 2017
+    <a href="/">
+      <strong>Restaurant Reviews</strong>
+    </a> All Rights Reserved.
+  </footer>
+
+</body>
+
+</html>
